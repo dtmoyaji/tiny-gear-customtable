@@ -4,6 +4,7 @@ import org.apache.wicket.util.tester.WicketTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.tiny.customtable.column.ColumnStructure;
+import org.tiny.customtable.column.TableStructure;
 import org.tiny.datawrapper.Column;
 import org.tiny.datawrapper.IncrementalKey;
 import org.tiny.datawrapper.RelationInfo;
@@ -17,20 +18,21 @@ import org.tiny.datawrapper.annotations.LogicalName;
 public class TestHomePage {
 
     private WicketTester tester;
+    private TestTable testTable;
 
     @BeforeEach
     public void setUp() {
         tester = new WicketTester(new WicketApplication());
+        testTable = new TestTable();
     }
 
     @Test
     public void homepageRendersSuccessfully() {
 
-        TestTable testTable = new TestTable();
-        testTable.TestTableId.add(
+        testTable.TestTableString.add(
                 new RelationInfo(
                         TestTable.class,
-                        testTable.TestTableString
+                        testTable.TestTableId
                 )
         );
 
@@ -38,6 +40,21 @@ public class TestHomePage {
         String columnLogicalName = (String) cstructure.get(ColumnStructure.LOGICAL_NAME);
         String constr = cstructure.getConstructParameterTalken();
         String def = cstructure.getDefineTalken();
+        String ref = cstructure.getRelationTalken();
+
+        TableStructure tstr = new TableStructure(testTable);
+        String classHead = tstr.getTableClassHeader();
+        String ts = tstr.getGroovyCode();
+        
+        TableStructure handMade = new TableStructure("TestTable");
+        handMade.setLogicalName("テストテーブル");
+        
+        ColumnStructure testTableId = handMade.createColumnStructure("TestTableId");
+        testTableId.put(ColumnStructure.LOGICAL_NAME, "テストテーブルID");
+        testTableId.put(ColumnStructure.DATA_TYPE, "Integer");
+        testTableId.put(ColumnStructure.VISIBLE_TYPE, Column.VISIBLE_TYPE_LABEL);
+        
+        String hs = handMade.getGroovyCode();
 
         //start and render the test page
         tester.startPage(HomePage.class);
@@ -46,6 +63,7 @@ public class TestHomePage {
         tester.assertRenderedPage(HomePage.class);
     }
 
+    @LogicalName("テストテーブル")
     public class TestTable extends Table {
 
         @LogicalName("テストテーブルID")
@@ -63,4 +81,5 @@ public class TestHomePage {
         }
 
     }
+
 }

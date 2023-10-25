@@ -43,11 +43,15 @@ public class ColumnStructure extends HashMap<String, Object> {
 
     public static final String TEMPLATE_COLUMN_CONSTANT = "\t.set%s(Column.%s)\n";
 
+    private Column srcColumn;
+
     public ColumnStructure(String columnPhisicalName) {
         this.put(PHISICAL_NAME, columnPhisicalName);
     }
 
     public ColumnStructure(Column src) {
+        this.srcColumn = src;
+        this.srcColumn.bindFieldWithArray();
         this.mapStructure(src);
     }
 
@@ -109,7 +113,7 @@ public class ColumnStructure extends HashMap<String, Object> {
                 ColumnStructure.VISIBLE_TYPE
         );
 
-        template += ";\n";
+        template += "\t;\n";
         return template;
     }
 
@@ -120,8 +124,8 @@ public class ColumnStructure extends HashMap<String, Object> {
         }
         return rvalue;
     }
-    
-    public String deCodeVisibleType(String name){
+
+    public String deCodeVisibleType(String name) {
         int type = (int) this.get(ColumnStructure.VISIBLE_TYPE);
         String typeString = VisibleType.build(type).name();
         String rvalue = String.format(
@@ -129,6 +133,21 @@ public class ColumnStructure extends HashMap<String, Object> {
                 name,
                 typeString
         );
+        return rvalue;
+    }
+
+    public String getRelationTalken() {
+        String rvalue = "";
+        if (this.srcColumn.hasRelation()) {
+            String format = "_RelationInfo.add(\"%s,%s,%s\");\n";
+            String relationFrom = this.srcColumn.getName();
+            RelationInfo rinfo = (RelationInfo) this.srcColumn.get(0);
+            String className = rinfo.getTableClass().getCanonicalName();
+            String relationTo = rinfo.getColumn().getName();
+            rvalue = String.format(format, relationFrom, className, relationTo);
+        } else {
+            rvalue = "";
+        }
         return rvalue;
     }
 

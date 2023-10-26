@@ -45,16 +45,29 @@ public class TestHomePage {
         TableStructure tstr = new TableStructure(testTable);
         String classHead = tstr.getTableClassHeader();
         String ts = tstr.getGroovyCode();
+        System.out.println(ts);
         
         TableStructure handMade = new TableStructure("TestTable");
         handMade.setLogicalName("テストテーブル");
         
         ColumnStructure testTableId = handMade.createColumnStructure("TestTableId");
         testTableId.put(ColumnStructure.LOGICAL_NAME, "テストテーブルID");
+        testTableId.put(ColumnStructure.AUTO_INCREMENT, "true");
         testTableId.put(ColumnStructure.DATA_TYPE, "Integer");
         testTableId.put(ColumnStructure.VISIBLE_TYPE, Column.VISIBLE_TYPE_LABEL);
         
+        ColumnStructure testTableString = handMade.createColumnStructure("TestTableString");
+        testTableString.put(ColumnStructure.LOGICAL_NAME, "テストテーブル文字列");
+        testTableString.put(ColumnStructure.DATA_TYPE, "String");
+        testTableString.put(ColumnStructure.LENGTH, Column.SIZE_1024);
+        testTableString.put(ColumnStructure.VISIBLE_TYPE, Column.VISIBLE_TYPE_TEXT);
+        testTableString.put(ColumnStructure.RELATIONAL_TABLE, TableStructure.CUSTOM_TABLE_PACKAGE + ".TestTable");
+        testTableString.put(ColumnStructure.RELATIONAL_COLUMN, "TestTableId");
+        
         String hs = handMade.getGroovyCode();
+        System.out.println(hs);
+
+        System.out.println(handMade.getRelationCode());
 
         //start and render the test page
         tester.startPage(HomePage.class);

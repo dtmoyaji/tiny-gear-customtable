@@ -100,5 +100,15 @@ public class TableStructure extends ArrayList<ColumnStructure> {
         }
         return rvalue;
     }
+    
+    public String getRelationCode(){
+        String rvalue = "";
+        for(ColumnStructure cstr: this){
+            if(cstr.containsKey(ColumnStructure.RELATIONAL_TABLE)){
+                rvalue += cstr.getRelationTalken() + "\n";
+            }
+        }
+        return rvalue;
+    }
 
 }

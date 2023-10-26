@@ -3,6 +3,7 @@ package org.tiny.customtable.column;
 import java.util.HashMap;
 import java.util.Iterator;
 import org.tiny.datawrapper.Column;
+import org.tiny.datawrapper.NameDescriptor;
 import org.tiny.datawrapper.RelationInfo;
 
 /**
@@ -67,7 +68,7 @@ public class ColumnStructure extends HashMap<String, Object> {
         if (!src.isEmpty()) {
             for (Iterator it = src.iterator(); it.hasNext();) {
                 RelationInfo relinfo = (RelationInfo) it.next();
-                this.put(ColumnStructure.RELATIONAL_TABLE, relinfo.getTableClass());
+                this.put(ColumnStructure.RELATIONAL_TABLE, relinfo.getTableClass().getCanonicalName());
                 this.put(ColumnStructure.RELATIONAL_COLUMN, relinfo.getColumn().getJavaName());
             }
         }
@@ -126,6 +127,9 @@ public class ColumnStructure extends HashMap<String, Object> {
     }
 
     public String deCodeVisibleType(String name) {
+        if (!this.containsKey(ColumnStructure.VISIBLE_TYPE)) {
+            throw new NullPointerException("Visible Type is not specified.");
+        }
         int type = (int) this.get(ColumnStructure.VISIBLE_TYPE);
         String typeString = VisibleType.build(type).name();
         String rvalue = String.format(
@@ -138,15 +142,15 @@ public class ColumnStructure extends HashMap<String, Object> {
 
     public String getRelationTalken() {
         String rvalue = "";
-        if (this.srcColumn.hasRelation()) {
+        if (this.containsKey(ColumnStructure.RELATIONAL_COLUMN)
+                && this.containsKey(ColumnStructure.RELATIONAL_TABLE)) {
             String format = "_RelationInfo.add(\"%s,%s,%s\");\n";
-            String relationFrom = this.srcColumn.getName();
-            RelationInfo rinfo = (RelationInfo) this.srcColumn.get(0);
-            String className = rinfo.getTableClass().getCanonicalName();
-            String relationTo = rinfo.getColumn().getName();
+            String relationFrom = (String) this.get(ColumnStructure.PHISICAL_NAME);
+            relationFrom = NameDescriptor.toSqlName(relationFrom);
+            String className = (String) this.get(ColumnStructure.RELATIONAL_TABLE);
+            String relationTo = (String) this.get(ColumnStructure.RELATIONAL_COLUMN);
+            relationTo = NameDescriptor.toSqlName(relationTo);
             rvalue = String.format(format, relationFrom, className, relationTo);
-        } else {
-            rvalue = "";
         }
         return rvalue;
     }

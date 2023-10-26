@@ -1,5 +1,7 @@
-package org.tiny.customtable.column;
+package org.tiny.customtable.editor;
 
+import groovy.lang.Binding;
+import groovy.lang.GroovyShell;
 import java.util.ArrayList;
 import org.tiny.datawrapper.Column;
 import org.tiny.datawrapper.Table;
@@ -42,7 +44,6 @@ public class TableStructure extends ArrayList<ColumnStructure> {
     private void initTableClassHeader() {
         this.tableDefHeader += "package " + CUSTOM_TABLE_PACKAGE + ";\n\n";
         this.tableDefHeader += "import java.sql.Timestamp; \n";
-        this.tableDefHeader += "import org.tiny.gear.GearApplication; \n";
         this.tableDefHeader += "import org.tiny.datawrapper.annotations.LogicalName; \n";
         this.tableDefHeader += "import org.tiny.datawrapper.annotations.Comment; \n";
         this.tableDefHeader += "import org.tiny.datawrapper.Table; \n";
@@ -51,7 +52,7 @@ public class TableStructure extends ArrayList<ColumnStructure> {
         this.tableDefHeader += "import org.tiny.datawrapper.IncrementalKey; \n";
         this.tableDefHeader += "import org.tiny.datawrapper.ShortFlagZero; \n";
         this.tableDefHeader += "import org.tiny.datawrapper.CurrentTimestamp; \n";
-        this.tableDefHeader += "import org.tiny.gear.model.Attribute; \n";
+        this.tableDefHeader += "import org.tiny.datawrapper.TinyDatabaseException; \n";
     }
 
     public String getTableClassHeader() {
@@ -61,7 +62,7 @@ public class TableStructure extends ArrayList<ColumnStructure> {
     public String getGroovyCode() {
         String rvalue = "";
         rvalue += "@LogicalName(\"%s\")\n";
-        rvalue += "public %s extends Table {\n\n";
+        rvalue += "public class %s extends Table {\n\n";
         rvalue += "%s\n"; //カラムの変数宣言
         rvalue += "public void defineColumns() throws TinyDatabaseException {\n";
         rvalue += "%s\n"; //変数宣言
@@ -100,15 +101,32 @@ public class TableStructure extends ArrayList<ColumnStructure> {
         }
         return rvalue;
     }
-    
-    public String getRelationCode(){
+
+    public String getRelationCode() {
         String rvalue = "";
-        for(ColumnStructure cstr: this){
-            if(cstr.containsKey(ColumnStructure.RELATIONAL_TABLE)){
+        for (ColumnStructure cstr : this) {
+            if (cstr.containsKey(ColumnStructure.RELATIONAL_TABLE)) {
                 rvalue += cstr.getRelationTalken() + "\n";
             }
         }
         return rvalue;
+    }
+
+    /**
+     * Goorvyでオブジェクト化した後、もう一度TableStructrueにマップすることで、クラスの表記を正規化する。
+     * @return 
+     */
+    public String getNormalizedGroovyCode() {
+        String cfi = String.format(
+                "return new %s();", this.tablePhisicalName
+        );
+        String tableDef = this.tableDefHeader + "\n" + this.getGroovyCode() + "\n" + cfi;
+        Binding binding = new Binding();
+        GroovyShell grshell = new GroovyShell(binding);
+        Table rvalue = (Table) grshell.evaluate(tableDef);
+
+        TableStructure buf = new TableStructure(rvalue);
+        return buf.getGroovyCode();
     }
 
 }

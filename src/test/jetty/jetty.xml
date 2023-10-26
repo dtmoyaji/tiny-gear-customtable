@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure_9_3.dtd">
 <!-- ============================================================= -->
-<!-- Configure a HTTP connector.                                  -->
+<!-- Configure a HTTP connector.・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ・ゑ｣ｰ -->
 <!-- ============================================================= -->
 <Configure>
 	<New id="httpConfig" class="org.eclipse.jetty.server.HttpConfiguration">

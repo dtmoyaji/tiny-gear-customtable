@@ -1,4 +1,4 @@
-package org.tiny.customtable.column;
+package org.tiny.customtable.editor;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -60,6 +60,7 @@ public class ColumnStructure extends HashMap<String, Object> {
         this.put(ColumnStructure.PHISICAL_NAME, src.getJavaName());
         this.put(ColumnStructure.LOGICAL_NAME, src.getTable().getColumnLogicalName(src));
         this.put(ColumnStructure.DATA_TYPE, src.getType());
+        this.put(ColumnStructure.ALLOW_NULL, src.isNullable());
         this.put(ColumnStructure.LENGTH, src.getLength());
         this.put(ColumnStructure.FLOAT_LENGTH, src.getFloatLength());
         this.put(ColumnStructure.DEFAULT, src.getDefault());

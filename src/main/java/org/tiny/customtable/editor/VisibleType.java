@@ -1,4 +1,4 @@
-package org.tiny.customtable.column;
+package org.tiny.customtable.editor;
 
 /**
  *

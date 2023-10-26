@@ -3,8 +3,9 @@ package org.tiny;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.tiny.customtable.column.ColumnStructure;
-import org.tiny.customtable.column.TableStructure;
+import org.tiny.customtable.editor.ColumnStructure;
+import org.tiny.customtable.editor.DataType;
+import org.tiny.customtable.editor.TableStructure;
 import org.tiny.datawrapper.Column;
 import org.tiny.datawrapper.IncrementalKey;
 import org.tiny.datawrapper.RelationInfo;
@@ -27,7 +28,7 @@ public class TestHomePage {
     }
 
     @Test
-    public void homepageRendersSuccessfully() {
+    public void homepageRendersSuccessfully() throws Exception {
 
         testTable.TestTableString.add(
                 new RelationInfo(
@@ -53,20 +54,26 @@ public class TestHomePage {
         ColumnStructure testTableId = handMade.createColumnStructure("TestTableId");
         testTableId.put(ColumnStructure.LOGICAL_NAME, "テストテーブルID");
         testTableId.put(ColumnStructure.AUTO_INCREMENT, "true");
-        testTableId.put(ColumnStructure.DATA_TYPE, "Integer");
+        testTableId.put(ColumnStructure.DATA_TYPE, DataType.INTEGER.getDataTypeValue());
         testTableId.put(ColumnStructure.VISIBLE_TYPE, Column.VISIBLE_TYPE_LABEL);
         
         ColumnStructure testTableString = handMade.createColumnStructure("TestTableString");
         testTableString.put(ColumnStructure.LOGICAL_NAME, "テストテーブル文字列");
-        testTableString.put(ColumnStructure.DATA_TYPE, "String");
+        testTableString.put(ColumnStructure.DATA_TYPE, DataType.STRING.getDataTypeValue());
         testTableString.put(ColumnStructure.LENGTH, Column.SIZE_1024);
         testTableString.put(ColumnStructure.VISIBLE_TYPE, Column.VISIBLE_TYPE_TEXT);
         testTableString.put(ColumnStructure.RELATIONAL_TABLE, TableStructure.CUSTOM_TABLE_PACKAGE + ".TestTable");
         testTableString.put(ColumnStructure.RELATIONAL_COLUMN, "TestTableId");
         
-        String hs = handMade.getGroovyCode();
+        DataType[] types = DataType.values();
+        
+        String hs = handMade.getNormalizedGroovyCode();
         System.out.println(hs);
-
+        
+        if(!ts.equals(hs)){
+            throw new Exception("ソースコード比較の結果、差異があります。");
+        }
+        
         System.out.println(handMade.getRelationCode());
 
         //start and render the test page
@@ -87,10 +94,12 @@ public class TestHomePage {
 
         @Override
         public void defineColumns() throws TinyDatabaseException {
-            this.TestTableString.setAllowNull(true)
+            this.TestTableId.setAllowNull(true)
                     .setPrimaryKey(true)
-                    .setLength(Column.SIZE_1024)
                     .setVisibleType(Column.VISIBLE_TYPE_LABEL);
+            
+            this.TestTableString
+                    .setLength(Column.SIZE_1024);
         }
 
     }

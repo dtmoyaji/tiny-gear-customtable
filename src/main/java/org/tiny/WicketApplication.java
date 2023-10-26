@@ -37,5 +37,6 @@ public class WicketApplication extends WebApplication
 			.add(CSPDirective.FONT_SRC, "https://fonts.gstatic.com");
 
 		// add your configuration here
+                this.getRequestCycleSettings().setResponseRequestEncoding("UTF-8");
 	}
 }

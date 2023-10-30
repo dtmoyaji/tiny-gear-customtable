@@ -1,17 +1,52 @@
-<!DOCTYPE html>
-<html  xmlns="http://www.w3.org/1999/xhtml"
-       xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd"
-       xml:lang="ja"
-       lang="ja" >
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:wicket="http://wicket.apache.org/">
     <head>
-        <meta charset="UTF-8" />
-        <title>Apache Wicket Quickstart</title>
-        <link href='https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:regular,bold' rel='stylesheet' type='text/css' />
-        <link rel="stylesheet" href="style.css" type="text/css" media="screen" title="Stylesheet" />
+        <link rel="stylesheet" href="../../../../../webapp/style.css" type="text/css" media="screen" title="Stylesheet" />
     </head>
     <body>
         <wicket:panel>
-            ばいーん
+            <form wicket:id="tableStructureEditorForm">
+                <lable>テーブル名</lable>
+                <div>
+                    <label>論理名</label>
+                    <input type="text" />
+                </div>
+                <div>
+                    <label>物理名</label>
+                    <input type="text" />
+                </div>
+                <lable>カラム定義</lable>
+                <ul>
+                    <li class="columnAttributes">
+                        <input type="button" class="cntlbtn remove" value="－" />
+                        <div class="columnAttribute">物理名</div>
+                        <div class="columnAttribute">論理名</div>
+                        <div class="columnAttribute">型</div>
+                        <div class="columnAttribute">長さ</div>
+                        <div class="columnAttribute">主キー</div>
+                        <div class="columnAttribute">外部参照</div>
+                        <input type="button" class="cntlbtn up" value="↑" />
+                        <input type="button" class="cntlbtn down" value="↓" />
+                    </li>
+                    <li class="columnAttributes">
+                        <input type="button" class="cntlbtn remove" value="－" />
+                        <div class="columnAttribute">PHISICAL_NAME</div>
+                        <div class="columnAttribute">LOGICAL_NAME</div>
+                        <div class="columnAttribute">COLUMN_TYPE</div>
+                        <div class="columnAttribute">COLUMN_LENGTH</div>
+                        <div class="columnAttribute">PKEY</div>
+                        <div class="columnAttribute">EXREF</div>
+                        <input type="button" class="cntlbtn up" value="↑" />
+                        <input type="button" class="cntlbtn down" value="↓" />
+                    </li>
+                </ul>
+                <ul>
+                    <li class="none">
+                        <input type="button" class="cntlbtn plus" value="＋" />
+                    </li>
+                </ul>
+            </form>
         </wicket:panel>
     </body>
 </html>

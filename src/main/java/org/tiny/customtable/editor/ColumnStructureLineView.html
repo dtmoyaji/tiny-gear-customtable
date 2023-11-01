@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:wicket="http://wicket.apache.org/">
+    <head>
+        <link rel="stylesheet" href="../../../../../webapp/style.css" type="text/css" media="screen" title="Stylesheet" />
+    </head>
+    <body>
+        <wicket:panel>
+            <li class="columnStructureLine">
+                <input type="button" class="col-struct cntlbtn remove" value="－" />
+                <input class="col-struct phisicalname" type="text" placeholder="物理名" wicket:id="phisicalName" />
+                <input class= "col-struct logicalname" type="text" placeholder="論理名" wicket:id="logicalName" />
+                <labe>
+                    型
+                    <select class="col-struct datatype" wicket:id="dataType" />
+                </labe>
+                <label>
+                    長さ(
+                    <input class="col-struct length" type="text" placeholder="長さ" wicket:id="length" />
+                    ,
+                    <input class="col-struct length" type="text" placeholder="小数桁数" wicket:id="floatlength" />
+                    )
+                </label>
+                <label><input class="col-struct pkey" type="checkbox" wicket:id="primarykey"/>主キー</label>
+
+                <input type="button" class="col-struct cntlbtn up" value="↑" />
+                <input type="button" class="col-struct cntlbtn down" value="↓" />
+            </li>
+        </wicket:panel>
+    </body>
+</html>

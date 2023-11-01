@@ -114,7 +114,8 @@ public class TableStructure extends ArrayList<ColumnStructure> {
 
     /**
      * Goorvyでオブジェクト化した後、もう一度TableStructrueにマップすることで、クラスの表記を正規化する。
-     * @return 
+     *
+     * @return
      */
     public String getNormalizedGroovyCode() {
         String cfi = String.format(
@@ -127,6 +128,21 @@ public class TableStructure extends ArrayList<ColumnStructure> {
 
         TableStructure buf = new TableStructure(rvalue);
         return buf.getGroovyCode();
+    }
+
+    public String getSqlCreateStatement() {
+        if (!this.isEmpty()) {
+            String cfi = String.format(
+                    "return new %s();", this.tablePhisicalName
+            );
+            String tableDef = this.tableDefHeader + "\n" + this.getGroovyCode() + "\n" + cfi;
+            Binding binding = new Binding();
+            GroovyShell grshell = new GroovyShell(binding);
+            Table rvalue = (Table) grshell.evaluate(tableDef);
+            return rvalue.getCreateSentence();
+        } else {
+            return "For sql creation, More than one column defintion is required.";
+        }
     }
 
 }

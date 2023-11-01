@@ -10,42 +10,30 @@
                 <lable>テーブル名</lable>
                 <div>
                     <label>論理名</label>
-                    <input type="text" />
+                    <input type="text" wicket:id="logicalName"/>
                 </div>
                 <div>
                     <label>物理名</label>
-                    <input type="text" />
+                    <input type="text" wicket:id="phisicalName" />
                 </div>
                 <lable>カラム定義</lable>
-                <ul>
-                    <li class="columnAttributes">
-                        <input type="button" class="cntlbtn remove" value="－" />
-                        <div class="columnAttribute">物理名</div>
-                        <div class="columnAttribute">論理名</div>
-                        <div class="columnAttribute">型</div>
-                        <div class="columnAttribute">長さ</div>
-                        <div class="columnAttribute">主キー</div>
-                        <div class="columnAttribute">外部参照</div>
-                        <input type="button" class="cntlbtn up" value="↑" />
-                        <input type="button" class="cntlbtn down" value="↓" />
-                    </li>
-                    <li class="columnAttributes">
-                        <input type="button" class="cntlbtn remove" value="－" />
-                        <div class="columnAttribute">PHISICAL_NAME</div>
-                        <div class="columnAttribute">LOGICAL_NAME</div>
-                        <div class="columnAttribute">COLUMN_TYPE</div>
-                        <div class="columnAttribute">COLUMN_LENGTH</div>
-                        <div class="columnAttribute">PKEY</div>
-                        <div class="columnAttribute">EXREF</div>
-                        <input type="button" class="cntlbtn up" value="↑" />
-                        <input type="button" class="cntlbtn down" value="↓" />
-                    </li>
-                </ul>
-                <ul>
-                    <li class="none">
-                        <input type="button" class="cntlbtn plus" value="＋" />
-                    </li>
-                </ul>
+
+                <div class="tab">
+                    <input type="button" wicket:id="editorVisibleButton" class="toggle-button" value="編集" selected="true"/>
+                    <input type="button" wicket:id="classConstractVisibleButton" class="toggle-button" value="プレビュー" selected="false" />
+                </div>
+
+                <div wicket:id="defineControler" class="selectablePanel" selected="true">
+                    <ul class="columnStructureLine" wicket:id="columnStructureLineView" />
+                    <ul class="columnStructureLine">
+                        <li class="columnStructureLine">
+                            <input type="button" class="col-struct cntlbtn plus" value="カラム追加" />
+                        </li>
+                    </ul>
+                </div>
+                <div wicket:id="classConstructionView" class="selectablePanel" selected="true">
+                    <label class="classStructure" wicket:id="classStructure" />
+                </div>
             </form>
         </wicket:panel>
     </body>

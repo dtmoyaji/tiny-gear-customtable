@@ -1,3 +1,35 @@
+.tab{
+    display: block;
+    border-bottom: solid rgb(200,200,250) thin;
+    padding: 0 2em;
+}
+
+.tab input[type="button"]{
+    height: 2em;
+    width: 20%;
+    border-radius: 5px 5px 0px 0px;
+    border-width: 0px;
+    background-color: rgb(200,200,200);
+    color: gray;
+}
+
+.tab input[type="button"][selected="true"]{
+    height: 2em;
+    width: 20%;
+    border-radius: 5px 5px 0px 0px;
+    border-width: 0px;
+    background-color: rgb(200,200,250);
+    color: black;
+}
+
+div.selectablePanel[selected="true"] {
+    display: inherit;
+}
+
+div.selectablePanel[selected="false"] {
+    display: none;
+}
+
 .cntlbtn{
     width: 2em;
     height: 2em;
@@ -12,7 +44,7 @@
 }
 
 .columnAttributes{
-    display: table-row;
+    display: table;
     width:95%;
 }
 
@@ -21,4 +53,42 @@
     font-size: 1em;
     min-height: 5em;
     padding: 0.5em 0.5em;
+}
+
+.columnStructureLine{
+    display: table;
+}
+
+.col-struct {
+    display: table-cell;
+    margin: 0.5em;
+    min-width: 8em;
+}
+
+.col-struct.length {
+    width: 4em;
+    height: 1.6em;
+    min-width: inherit;
+}
+
+.col-struct.pkey{
+    width: 2em;
+    min-width: inherit;
+}
+
+.col-struct.cntlbtn {
+    width: 2em;
+    min-width: inherit;
+}
+
+.col-struct.cntlbtn.plus {
+    width: 6em;
+    min-width: inherit;
+}
+
+.classStructure{
+    display: block;
+    margin: 1em 3em;
+    padding: 0.1em 2em;
+    border: solid 1px #ccccff;
 }

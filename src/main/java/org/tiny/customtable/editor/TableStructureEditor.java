@@ -34,8 +34,8 @@ public class TableStructureEditor extends Panel {
     private String logicalName = "新規テーブル";
     
     private TableStructure tableStructure;
-    
     private MultiLineLabel classStructure;
+    
     private String classCode = "";
 
     public TableStructureEditor(String id) {
@@ -113,7 +113,7 @@ public class TableStructureEditor extends Panel {
     public String generateCode(){
        this.tableStructure = new TableStructure(this.phisicalName);
        this.tableStructure.setLogicalName(this.logicalName);
-       
+
        return this.tableStructure.getGroovyCode();
     }
     
